@@ -2,12 +2,16 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"math/rand"
+	"os"
 	"strings"
+	"time"
 )
 
 // Create a new type of deck, this deck is a slice of strings
 // This type is an approximation to the oop concept in golang
-// wich is not an object oriented language
+// which is not an object oriented language
 type deck []string
 
 //newDeck creates a new deck out of nothing
@@ -58,4 +62,46 @@ func deal(d deck, handSize int) (deck, deck) {
 // in a new string. This process is performed with the strings library
 func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
+}
+
+// saveToFile function saves into the hard drive a deck instance
+// This is made using the ioutil library WriteFile function.
+// To do this the file name is taken as parameter, the byte slice
+// is transformed directly from the deck slice to string conversion
+// (using the previous toString function) and finally the permissions
+// are set to 0666. In case of error an error is returned
+func (d deck) saveToFile(fileName string) error {
+	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
+}
+
+// newDeckFromFile function recovers from file an existing deck
+// of cards. This returns a slice of bytes and (in case of happening)
+// an error (nil when no error happened)
+// If the file has been read properly theres a chance this file is
+// empty. In this case the execution stops
+func newDeckFromFile(fileName string) deck {
+	bs, err := ioutil.ReadFile(fileName)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(1)
+	}
+	return deck(strings.Split(string(bs), ","))
+}
+
+// shuffle function performs a deck shuffleling using pseudo
+// random function rand. Using this number changes position
+// of elements in deck. Being a pseudo random number generates
+// an issue which is the chance of getting always the same result
+// increases. To avoid this a new source is adde to the rand
+// Unix time in nanoseconds is used as new seed
+func (d deck) shuffle() {
+	for i := range d {
+
+		source := rand.NewSource(time.Now().UnixNano())
+		r := rand.New(source)
+		newPosition := r.Intn(len(d) - 1)
+
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
 }
