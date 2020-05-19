@@ -27,6 +27,10 @@ func TestNewDeck(t *testing.T) {
 	}
 }
 
+// TestSaveToDeckAndNewDeckFromFile function checks the behavior of
+// the saving getting decks into the hard drive. First step is to delete
+// the file used to perform test, in case previous test executions has not
+// gone well.
 func TestSaveToDeckAndNewDeckFromFile(t *testing.T) {
 	os.Remove("_decktesting")
 

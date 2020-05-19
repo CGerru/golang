@@ -19,5 +19,8 @@
 
 # Binaries, yikes!
 **/*
+
+# Using sledgehammers to crack nuts
 !**/*.go
 !**/
+!**/*.md
