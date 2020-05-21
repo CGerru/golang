@@ -30,7 +30,7 @@ func main() {
 	alex := person{
 		firstName: "Alex",
 		lastName:  "Anderson",
-		// Added later. Every final propertie must have a final comma
+		// Added later. Every final properties must have a final comma
 		contact: contactInfo{
 			email:   "false@email.com",
 			zipCode: 00000,

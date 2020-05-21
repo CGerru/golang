@@ -15,11 +15,11 @@ Why is this? Well, this is because life hates you, very deeply. And also because
 in GO which behavior is different internally than the primitive types.
 
 | Value Types |   Reference Types |
-| int | slices
-| float | maps
-| string | channels
-| bool | pointers
-| struts | functions
+| int | slices |
+| float | maps |
+| string | channels |
+| bool | pointers |
+| struts | functions |
 
 Explaining it quickly when a slice is created go uses (at least) two memory addresses.
 1. One with the length, capacity and the pointer to the head
