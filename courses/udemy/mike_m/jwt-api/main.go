@@ -5,9 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"./controllers"
-	"./driver"
-	"./utils"
+	"local/jwt-api/controllers"
+
+	"local/jwt-api/driver"
+	"local/jwt-api/utils"
 
 	"github.com/gorilla/mux"
 	"github.com/subosito/gotenv"

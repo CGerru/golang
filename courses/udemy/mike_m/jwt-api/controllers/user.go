@@ -6,9 +6,11 @@ import (
 	"log"
 	"net/http"
 
-	"../models"
-	userRepository "../repository/user"
-	"../utils"
+	"local/jwt-api/models"
+
+	userRepository "local/jwt-api/repository/user"
+
+	"local/jwt-api/utils"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -20,7 +22,7 @@ type Controller struct{}
 
 // Login function performs the users login
 func (c Controller) Login(db *sql.DB) http.HandlerFunc {
-	return func(w http.HandlerFunc, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		var user models.User
 		var jwt models.JWT
 		var error models.Error
@@ -43,6 +45,8 @@ func (c Controller) Login(db *sql.DB) http.HandlerFunc {
 
 		userRepo := userRepository.UserRepository{}
 		user, err := userRepo.Login(db, user)
+
+		log.Println(err)
 
 		if err != nil {
 			if err == sql.ErrNoRows {
@@ -77,8 +81,9 @@ func (c Controller) Login(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+// Signup controller performs the signup ops
 func (c Controller) Signup(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Response) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		var user models.User
 		var error models.Error
 
@@ -105,7 +110,7 @@ func (c Controller) Signup(db *sql.DB) http.HandlerFunc {
 		user.Password = string(hash)
 
 		userRepo := userRepository.UserRepository{}
-		user := userRepo.Signup(db, user)
+		user = userRepo.Signup(db, user)
 
 		if err != nil {
 			error.Message = "Server error."

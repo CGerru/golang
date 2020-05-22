@@ -8,12 +8,12 @@ import (
 	"os"
 	"strings"
 
-	"../models"
+	"local/jwt-api/models"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-// ResponseWith Error builds and sends a response error
+// RespondWithError builds and sends a response error
 func RespondWithError(w http.ResponseWriter, status int, error models.Error) {
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(error)
@@ -24,7 +24,7 @@ func ResponseJSON(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(data)
 }
 
-// Generate token generates a new JWT based in users login information
+// GenerateToken generates a new JWT based in users login information
 func GenerateToken(user models.User) (string, error) {
 	var err error
 
@@ -44,6 +44,7 @@ func GenerateToken(user models.User) (string, error) {
 	return tokenString, err
 }
 
+// TokenVerifyMiddleWare handles the pipeline of the request validating the token
 func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var errorObject models.Error

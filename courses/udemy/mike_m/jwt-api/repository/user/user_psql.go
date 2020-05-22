@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"../../models"
+	"local/jwt-api/models"
 )
 
 type UserRepository struct{}
